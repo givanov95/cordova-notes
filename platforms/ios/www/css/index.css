@@ -1,0 +1,140 @@
+#notes { 
+ padding-left: 1%;
+}
+
+.list-item { 
+  font-size: 1.5em;
+}
+
+.del-note {
+        position: absolute;
+    right: 0;
+    width: 5%; 
+    
+}
+
+.edit-note { 
+  float: right;
+  position: absolute;
+  right: 6%;
+
+}
+
+#sig-canvas{
+    background: #fff;;
+  }
+
+  .button--large{
+      margin-bottom: 1em!important;
+  }
+
+  table {
+      width: 100%;
+  }
+  
+  tr:nth-child(odd) {
+    background: white;
+  }
+
+  ons-checkbox {
+    margin: 0 .5em 0 0;
+}
+
+.page__background {
+  /* background-color:#cbf0f8!important; */
+  background: linear-gradient(to bottom, rgb(246,248,249) 0%,rgb(229,235,238) 50%,rgb(215,222,227) 51%,rgb(245,247,249) 100%);
+}
+
+.mt { 
+  margin-top:1em!important;
+}
+
+.ml { 
+  margin-left: 1em!important;
+}
+
+table { 
+  border-collapse: collapse;
+}
+
+tr { 
+  height: 50px;
+}
+
+td { 
+border-radius: 5px;
+padding: .2em;
+}
+
+.tabbar__button { 
+  color: #999;
+  border:none;
+}
+
+
+:checked + .tabbar--material__button {
+  color:#0076ff;
+
+}
+
+.tabbar__badge.notification { 
+  top:-10px!important;
+}
+
+.plus { 
+  position: absolute;
+  bottom: 1em; 
+  right: 1em;
+    display: inline-block;
+    box-sizing: border-box;
+    background-clip: padding-box;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    line-height: normal;
+    font-family: -apple-system, 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 56px;
+    height: 56px;
+    text-decoration: none;
+    font-size: 25px;
+    line-height: 56px;
+    letter-spacing: 0;
+    color: #ffffff;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #0076ff;
+    border: 0 solid currentColor;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
+    transition: all 0.1s linear;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    width: 56px;
+    height: 56px;
+    text-decoration: none;
+    font-size: 25px;
+    line-height: 56px;
+    color: #31313a;
+    background-color: #ffffff;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .4);
+    transition: all 0.2s ease-in-out;
+    
+}
+
+#myImage { 
+  max-width: 100%;
+  height: auto;
+}
