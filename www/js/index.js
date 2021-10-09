@@ -304,7 +304,7 @@ function addNote() {
 .then(function(name) {     
   var notes = document.getElementById('notes');
   var id = document.getElementsByTagName('ons-list-item').length;
-  notes.innerHTML+='<ons-list-item id="'+id+'" onclick="setOrder(this)"><ons-checkbox onclick="strike(this)"></ons-checkbox><span class="noteText">'+name+'</span><span class="edit-note" onclick="editNote(this)"><i class="zmdi zmdi-edit"></i></span><span class="del-note" onclick="delNote(this)">X</span></ons-list-item>';
+  notes.innerHTML+='<ons-list-item id="'+id+'" onclick="editNote(this)"><ons-checkbox onclick="strike(this)"></ons-checkbox><span class="noteText">'+name+'</span><span class="edit-note" onclick="editNote(this)"><i class="zmdi zmdi-edit"></i></span><span class="del-note" onclick="delNote(this)">X</span></ons-list-item>';
   localStorage.notes=  notes.innerHTML;
   checkBadges();
 
@@ -313,7 +313,7 @@ function addNote() {
 }
 
 var mylatesttap;
-function setOrder(thisElement) {
+function editNote(thisElement) {
   
   var list = document.getElementById('notes');
    var now = new Date().getTime();
@@ -380,7 +380,7 @@ function setOrder(thisElement) {
 }
 
    
-function editNote(element) {  
+function setOrder(element) {  
 
 ons.notification.prompt({message: 'Редактирай бележката' ,
 title: 'Редактиране',
@@ -729,9 +729,9 @@ function setDate(){
  
  
      var li =  document.createElement('ons-list-item');
-     li.setAttribute("onclick","setOrder(this)");
+     li.setAttribute("onclick","editNote(this)");
      if(i-3<=thistable.length){
-      '<ons-list-item id="" onclick="setOrder(this)"><ons-checkbox onclick="strike(this)"></ons-checkbox><span>'+name+'</span><span class="edit-note" onclick="editNote(this)"><i class="zmdi zmdi-edit"></i></span><span class="del-note" onclick="delNote(this)">X</span></ons-list-item>';
+      '<ons-list-item id="" onclick="editNote(this)"><ons-checkbox onclick="strike(this)"></ons-checkbox><span>'+name+'</span><span class="edit-note" onclick="setOrder(this)"><i class="zmdi zmdi-edit"></i></span><span class="del-note" onclick="delNote(this)">X</span></ons-list-item>';
      li.innerHTML= '<ons-checkbox onclick="strike(this)"></ons-checkbox><span>'+  thistable[i].innerHTML+' | '+ thistable[i+1].innerHTML +'</span><span class="edit-note" onclick="editNote(this)"><i class="zmdi zmdi-edit"></i></span><span class="del-note" onclick="delNote(this)">X</span>';
      
 
@@ -768,20 +768,10 @@ function setDate(){
 
  
 
- function delReminder(element) { 
+ function delReminder(element) {   
+   element.parentElement.parentElement.remove();
 
-  if(element.parentElement.parentNode.parentNode.childNodes.length==2){
-    element.parentElement.parentNode.parentNode.parentNode.remove();
-   
-
-  }
-
-  else { 
-   element.parentElement.parentElement.remove(); 
-  
-}
-
-saveAndBadgesReminders();
+    saveAndBadgesReminders();
  
 }
 
@@ -829,6 +819,14 @@ function saveAndBadgesReminders() {
 
   saveAndBadgesReminders();
 
+ }
+
+
+ function delAllNotes() { 
+  var notes = document.getElementById('notes');
+  notes.innerHTML='';
+   localStorage.notes= notes.innerHTML;
+   checkBadges();
  }
 
   //  Plugins

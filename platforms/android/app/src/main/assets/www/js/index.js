@@ -768,20 +768,10 @@ function setDate(){
 
  
 
- function delReminder(element) { 
+ function delReminder(element) {   
+   element.parentElement.parentElement.remove();
 
-  if(element.parentElement.parentNode.parentNode.childNodes.length==2){
-    element.parentElement.parentNode.parentNode.parentNode.remove();
-   
-
-  }
-
-  else { 
-   element.parentElement.parentElement.remove(); 
-  
-}
-
-saveAndBadgesReminders();
+    saveAndBadgesReminders();
  
 }
 
@@ -829,6 +819,14 @@ function saveAndBadgesReminders() {
 
   saveAndBadgesReminders();
 
+ }
+
+
+ function delAllNotes() { 
+  var notes = document.getElementById('notes');
+  notes.innerHTML='';
+   localStorage.notes= notes.innerHTML;
+   checkBadges();
  }
 
   //  Plugins

@@ -1,8 +1,5 @@
-
-
 document.addEventListener("init", onDeviceReady, false);
 function onDeviceReady() {
-
 
   
   if(localStorage.notes) {
@@ -39,20 +36,18 @@ function onDeviceReady() {
     }
 
     checkBadgesReminders();
+
     let checkedReminder = document.querySelectorAll('.zmdi-check');
     if(checkedReminder){
-    for (let i = 0; i < checkedReminder.length; i++) {
-      console.log(this.parentElement.firstChild.checked);
-      this.parentElement.firstChild.checked=true;
-      
+    for (let i = 0; i < checkedReminder.length; i++) {   
+      checkedReminder[i].parentElement.firstChild.checked=true;      
     }
   }
- 
-  
+    
+
   }, 1000);
 
    checkBadges();
-
  
 
 }  //deviceready end
@@ -424,6 +419,8 @@ function addReminder() {
   var tables = document.getElementsByTagName('table');
   var hour = document.getElementById('hour').value;
 
+  // var tableCaption = document.createElement("caption"); 
+  // tableCaption.innerHTML='Добави задачите към записки  <ons-button onclick="toNotes(this)" modifier="quiet">Добави</ons-button>'       
  
   var lastTable = tables[tables.length-1];
 
@@ -447,10 +444,9 @@ function addReminder() {
       
          if(date==idOfTable) {
      
-  
+        
        document.querySelectorAll("[id='"+idOfTable+"']")[0].appendChild(tr);
      
-
       
        counter++;
 
@@ -465,18 +461,23 @@ function addReminder() {
   }
 
   if(counter==0) {
-    var header = document.createElement("h2");
-    header.innerHTML=  date;      
+    var header = document.createElement("tr");
+    header.classList.add("headerDate")
+    header.innerHTML= '<th colspan="3">Добави задачите към записки  <ons-button onclick="toNotes(this)" modifier="quiet">Добави</ons-button><h2>' +date +'<span class="delThisDate" onclick="delThisDate(this)">X</span></h2></th>';      
     
   if(typeof lastTable !='undefined'){
 
   let lastTableId= tables[tables.length-1].id;
-  // lastTableId = new Date(lastTableId);
-  // date = new Date(date);
+  
 
  if(date>lastTableId) { 
-  document.querySelectorAll('#reminders')[0].appendChild(header);
+  
+  //  table.firstChild.appendChild(header); 
   document.querySelectorAll('#reminders')[0].appendChild(table);
+  tableHeader = table.firstChild;
+  
+  tableHeader.insertBefore(header,tableHeader.childNodes[0]);
+
   
     } 
 
@@ -485,17 +486,18 @@ function addReminder() {
         let thisTable = tables[i];
         let thisTableId  = thisTable.id;
         
-      
-    
-         
           var list =  document.querySelectorAll("[id='"+thisTableId+"']")[0].parentElement;
-          var allTables = document.getElementsByTagName('table').length;
+          var allTables = document.getElementsByTagName('table').length;     
+             
+  
+        list.insertBefore(table, list.childNodes[allTables-2]); 
+        // list.insertBefore(header, list.childNodes[allTables-2]);
+
+        tableHeader = table.firstChild;
+     tableHeader.insertBefore(header,tableHeader.childNodes[0]);
          
-        list.insertBefore(table, list.childNodes[allTables-2]);   
-        list.insertBefore(header, list.childNodes[allTables-2]);
-           
-       
-        
+
+      
         
       }
       
@@ -505,20 +507,14 @@ function addReminder() {
     }
   
     else { 
-      document.querySelectorAll('#reminders')[0].appendChild(header);
+      // table.firstChild.appendChild(header); 
       document.querySelectorAll('#reminders')[0].appendChild(table);
+     tableHeader = table.firstChild;
+     tableHeader.insertBefore(header,tableHeader.childNodes[0]);
     }
   }
 
-
-
-  setTimeout(function(){ 
-    localStorage.reminders = reminders.innerHTML;
-
-    checkBadgesReminders();
-
-
-}, 1000);
+  saveAndBadgesReminders();
 
 
 } // eof add reminder 
@@ -531,6 +527,7 @@ setTimeout(function(){
   var sortingValues  = [];
   var tables = document.getElementsByTagName("table");
   var cells = document.getElementsByTagName("td");
+  
   var biggestCell = [];
   var allRows = [];
   var lastnum = 0;
@@ -552,11 +549,12 @@ setTimeout(function(){
   }
 
   for(var i = 0 ; i<tables.length ; i++){
-      
+
+   
+   
+    
     idOfTable = tables[i].id;
   
-    
-
     for(var j = 0 ; j< biggestCell.length;j++){
               
             
@@ -569,18 +567,25 @@ setTimeout(function(){
 sortingValues = sortingValues.sort(function(a, b){return a-b});
 
 var thisTable =  document.getElementById(idOfTable);
+
 if(thisTable!=null) {
+
+
 var thisRowTable = document.querySelectorAll("[id='"+idOfTable+"'] tr"); 
+var thisHeadTable = thisRowTable[0];
 
 // console.log(thisRowTable);
+
       
-        thisTable.innerHTML ="";          
+        thisTable.innerHTML ="";        
+     
+         thisTable.appendChild(thisHeadTable);
 
          
         var counter = 0;
          for (z=0;z<sortingValues.length;z++){
           
-          for(var k = 0; k<thisRowTable.length;k++){
+          for(var k = 1; k<thisRowTable.length;k++){
                  var text = thisRowTable[k].childNodes[1].innerText;
                 
                       number =text.substr(6, text.length);
@@ -593,23 +598,14 @@ var thisRowTable = document.querySelectorAll("[id='"+idOfTable+"'] tr");
                          allRows.push(tr);
                      }
 
-                     
-                
-              
           }
 
-        
-          for(var q = 0; q <allRows.length;q++){
-            var tableCaption = document.createElement("caption"); 
-            tableCaption.innerHTML='Добави задачите към записки  <ons-button onclick="toNotes(this)" modifier="quiet">Добави</ons-button>'
-           if(counter==0){
-            
-            thisTable.appendChild(tableCaption);
-           
-           
-           }
           
+          for(var q = 0; q <allRows.length;q++){         
+          
+           
             thisTable.appendChild(allRows[q]);
+           
 
             counter++;
             
@@ -653,10 +649,7 @@ localStorage.notes=  notes.innerHTML;
       }
       checkBadges();
     }
-  })
-
-
-  
+  }) 
   
 } 
 
@@ -664,7 +657,8 @@ function checkBadgesReminders() {
   
   var numberBadgesReminders = document.querySelectorAll('#reminders .table tr').length;
   let numberDoneReminders = document.querySelectorAll('.zmdi-check').length;
-  let totalRemindersBadge = numberBadgesReminders-numberDoneReminders;
+  let numberDateRows = document.querySelectorAll('th').length;
+  let totalRemindersBadge = numberBadgesReminders-numberDoneReminders-numberDateRows;
   var remindersMenu= document.getElementById('remindersMenu');
   remindersMenu.setAttribute("badge", totalRemindersBadge);
 }
@@ -724,7 +718,7 @@ function setDate(){
 
  function toNotes(element) {
 
-  var thisTableId = element.parentElement.parentElement.id;
+  var thisTableId = element.parentElement.parentElement.parentElement.id;
    
   var thistable =  document.querySelectorAll("[id='"+thisTableId+"'] td");
  
@@ -759,35 +753,81 @@ function setDate(){
     var checked = document.createElement('i');
     checked.setAttribute("class","zmdi zmdi-check");
     element.parentElement.appendChild(checked);
+    element.parentElement.parentElement.style.textDecoration="line-through";
    }
    else { 
     element.parentElement.childNodes[1].remove();
+    element.parentElement.parentElement.style.textDecoration="none";
    }
+
+
+   saveAndBadgesReminders();
   
  }
 
- function delReminder(element) { 
+
+ 
+
+ function delReminder(element) {   
    element.parentElement.parentElement.remove();
-  
 
-   setTimeout(function(){ 
-  
-    localStorage.reminders = reminders.innerHTML; 
-    checkBadgesReminders();
-
-   
-}, 500);
+    saveAndBadgesReminders();
  
 }
 
+
+
+
 function delAllReminders() { 
-  if(localStorage.reminders)
+  if(localStorage.reminders) 
+  {
+    ons.notification.confirm({ message: 'Наистина ли искате да изтриете всички известия?',
+title: 'Изтриване на известия',
+cancelable:true,
+buttonLabel: ['Не изтривай','ИЗТРИЙ'],
+callback: function(answer) {
+ if(answer==1){
   document.getElementById('reminders').innerHTML='';
-    localStorage.reminders = reminders.innerHTML; 
+
+  saveAndBadgesReminders();
+  }
+  
+}
+  });
+}
+}
+
+function saveAndBadgesReminders() {
+  setTimeout(function(){ 
+    localStorage.reminders = reminders.innerHTML;
+
     checkBadgesReminders();
+
+
+}, 1000);
 }
 
 
+ function delThisDate(element) { 
+
+
+  var thisTableId = element.parentElement.parentElement.parentElement.parentElement.id;
+  
+  var thistable =  document.querySelector("[id='"+thisTableId+"']");
+
+  thistable.remove();
+
+  saveAndBadgesReminders();
+
+ }
+
+
+ function delAllNotes() { 
+  var notes = document.getElementById('notes');
+  notes.innerHTML='';
+   localStorage.notes= notes.innerHTML;
+   checkBadges();
+ }
 
   //  Plugins
 
